@@ -15,6 +15,7 @@
       justify-content: flex-start;
       color: #e0e0e0;
       font-family: 'Fira Code', monospace;
+      cursor: pointer;
     }
     .date-display {
       position: absolute;
@@ -66,6 +67,59 @@
     .volume-slider label {
       margin-right: 10px;
     }
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100px;
+      height: 8px;
+      border-radius: 5px;
+      background: #333;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 5px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      cursor: pointer;
+    }
+    input[type="range"]::-moz-range-track {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 5px;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      cursor: pointer;
+    }
+    input[type="range"]::-ms-track {
+      width: 100%;
+      height: 8px;
+      background: #333;
+      border-radius: 5px;
+      border: none;
+    }
+    input[type="range"]:focus::-webkit-slider-runnable-track {
+      background: #333;
+    }
+    input[type="range"]:focus::-moz-range-track {
+      background: #333;
+    }
+    input[type="range"]:focus::-ms-track {
+      background: #333;
+    }
     @keyframes bounce {
       0% {
         transform: translateX(calc(50vw - 150px));
@@ -90,7 +144,7 @@
     <img src="images/5qr1globe.gif" alt="Left Globe">
     <img src="images/5qr1globe.gif" alt="Right Globe">
   </div>
-  <audio id="backgroundMusic" loop>
+  <audio id="backgroundMusic" loop autoplay>
     <source src="audio/OneBeerMFDOOMInstrumental.mp3" type="audio/mp3">
   </audio>
   
@@ -108,11 +162,20 @@
 
     window.onload = function() {
       var audio = document.getElementById('backgroundMusic');
-      audio.volume = 0.5;  // Set the default volume to 50%
+      audio.volume = 0.5;
       audio.play().catch(function(error) {
         console.log("Audio play failed:", error);
       });
     };
+
+    document.body.addEventListener('click', function() {
+      var audio = document.getElementById('backgroundMusic');
+      if (audio.paused) {
+        audio.play().catch(function(error) {
+          console.log("Audio play failed on click:", error);
+        });
+      }
+    });
 
     document.getElementById('volumeControl').addEventListener('input', function(event) {
       var audio = document.getElementById('backgroundMusic');
