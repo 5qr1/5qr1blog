@@ -2,32 +2,94 @@
 <head>
   <link rel="icon" type="image/png" href="images/5qr1.png">
   <title>5qr1blog</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <style>
     body {
       background-color: #141414;
-      text-align: center; 
       margin: 0;
       padding: 0;
-      height: 100vh; 
+      height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       color: #e0e0e0;
+      font-family: 'Fira Code', monospace;
+    }
+    .date-display {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 1.2em;
+      color: #d0d0d0;
     }
     h1 {
-      position: absolute;
-      top: 20px; 
-      width: 100%;
-    }
-    marquee {
       font-size: 2em;
+      margin-top: 40px;  /* Move marquee down to prevent overlap */
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .marquee-wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+    }
+    .marquee {
+      display: inline-block;
+      white-space: nowrap;
+      animation: bounce 8s ease-in-out infinite;
+    }
+    .gif-container {
+      display: flex;
+      position: absolute;
+      width: 100%;
+      justify-content: space-between;
+      top: 40px;  /* Positioned just below the marquee */
+    }
+    .gif-container img {
+      width: 50px;
+      height: 50px;
+    }
+    @keyframes bounce {
+      0% {
+        transform: translateX(calc(50vw - 150px));  /* Start near the left ball */
+      }
+      50% {
+        transform: translateX(calc(-50vw + 150px)); /* Move near the right ball */
+      }
+      100% {
+        transform: translateX(calc(50vw - 150px)); /* Return to left ball */
+      }
     }
   </style>
 </head>
 <body>
+  <div class="date-display" id="currentDate"></div>
   <h1>
-    <marquee>5qr1blog</marquee>
+    <div class="marquee-wrapper">
+      <div class="marquee">5qr1blog</div>
+    </div>
   </h1>
+  <div class="gif-container">
+    <img src="images/5qr1globe.gif" alt="Left Globe">
+    <img src="images/5qr1globe.gif" alt="Right Globe">
+  </div>
+
+  <script>
+    function formatDate() {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const today = new Date();
+      return today.toLocaleDateString('en-US', options);
+    }
+
+    document.getElementById('currentDate').textContent = formatDate();
+  </script>
 </body>
 </html>
+
 
 
