@@ -25,7 +25,7 @@
     }
     h1 {
       font-size: 2em;
-      margin-top: 40px;  /* Move marquee down to prevent overlap */
+      margin-top: 40px;
       width: 100%;
       overflow: hidden;
       display: flex;
@@ -48,7 +48,7 @@
       position: absolute;
       width: 100%;
       justify-content: space-between;
-      top: 40px;  /* Positioned just below the marquee */
+      top: 40px;
     }
     .gif-container img {
       width: 50px;
@@ -56,13 +56,13 @@
     }
     @keyframes bounce {
       0% {
-        transform: translateX(calc(50vw - 150px));  /* Start near the left ball */
+        transform: translateX(calc(50vw - 150px));
       }
       50% {
-        transform: translateX(calc(-50vw + 150px)); /* Move near the right ball */
+        transform: translateX(calc(-50vw + 150px));
       }
       100% {
-        transform: translateX(calc(50vw - 150px)); /* Return to left ball */
+        transform: translateX(calc(50vw - 150px));
       }
     }
   </style>
@@ -78,18 +78,17 @@
     <img src="images/5qr1globe.gif" alt="Left Globe">
     <img src="images/5qr1globe.gif" alt="Right Globe">
   </div>
-
+  <audio id="backgroundMusic" loop autoplay>
+    <source src="music/GuitarLonlinessBluePlanetKessokuBandInstrumental.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
   <script>
     function formatDate() {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       const today = new Date();
       return today.toLocaleDateString('en-US', options);
     }
-
     document.getElementById('currentDate').textContent = formatDate();
   </script>
 </body>
 </html>
-
-
-
