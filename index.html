@@ -1,7 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link rel="icon" type="image/png" href="images/5qr1.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>5qr1blog</title>
+  <link rel="icon" type="image/png" href="images/5qr1.png">
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
   <style>
     body {
@@ -28,11 +31,9 @@
       font-size: 2em;
       margin-top: 40px;
       width: 100%;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
     }
     .marquee-wrapper {
       display: flex;
@@ -43,6 +44,11 @@
       display: inline-block;
       white-space: nowrap;
       animation: bounce 8s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0% { transform: translateX(calc(50vw - 150px)); }
+      50% { transform: translateX(calc(-50vw + 150px)); }
+      100% { transform: translateX(calc(50vw - 150px)); }
     }
     .gif-container {
       display: flex;
@@ -59,13 +65,9 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      margin-top: 0;
       display: flex;
       align-items: center;
       color: #e0e0e0;
-    }
-    .volume-slider label {
-      margin-right: 10px;
     }
     input[type="range"] {
       -webkit-appearance: none;
@@ -76,12 +78,6 @@
       background: #333;
       outline: none;
     }
-    input[type="range"]::-webkit-slider-runnable-track {
-      width: 100%;
-      height: 8px;
-      background: #333;
-      border-radius: 5px;
-    }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -91,45 +87,13 @@
       background: #e0e0e0;
       cursor: pointer;
     }
-    input[type="range"]::-moz-range-track {
-      width: 100%;
-      height: 8px;
-      background: #333;
-      border-radius: 5px;
-    }
-    input[type="range"]::-moz-range-thumb {
+    input[type="range"]::-moz-range-thumb,
+    input[type="range"]::-ms-thumb {
       width: 20px;
       height: 20px;
       border-radius: 50%;
       background: #e0e0e0;
       cursor: pointer;
-    }
-    input[type="range"]::-ms-track {
-      width: 100%;
-      height: 8px;
-      background: #333;
-      border-radius: 5px;
-      border: none;
-    }
-    input[type="range"]:focus::-webkit-slider-runnable-track {
-      background: #333;
-    }
-    input[type="range"]:focus::-moz-range-track {
-      background: #333;
-    }
-    input[type="range"]:focus::-ms-track {
-      background: #333;
-    }
-    @keyframes bounce {
-      0% {
-        transform: translateX(calc(50vw - 150px));
-      }
-      50% {
-        transform: translateX(calc(-50vw + 150px));
-      }
-      100% {
-        transform: translateX(calc(50vw - 150px));
-      }
     }
   </style>
 </head>
@@ -145,13 +109,11 @@
     <img src="images/5qr1globe.gif" alt="Right Globe">
   </div>
   <audio id="backgroundMusic" loop autoplay>
-    <source src="audio/OneBeerMFDOOMInstrumental.mp3" type="audio/mp3">
+    <source src="audio/BergamotWildMFDOOM.mp3" type="audio/mp3">
   </audio>
-  
   <div class="volume-slider">
     <input type="range" id="volumeControl" min="0" max="0.75" step="0.01" value="0.75">
   </div>
-
   <script>
     function formatDate() {
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -160,26 +122,32 @@
     }
     document.getElementById('currentDate').textContent = formatDate();
 
+    function updateSliderBackground(slider) {
+      const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+      slider.style.background = `linear-gradient(to right, #F29D5B ${value}%, #333 ${value}%)`;
+    }
+
     window.onload = function() {
-      var audio = document.getElementById('backgroundMusic');
-      audio.volume = 0.5;
-      audio.play().catch(function(error) {
-        console.log("Audio play failed:", error);
-      });
+      const audio = document.getElementById('backgroundMusic');
+      const slider = document.getElementById('volumeControl');
+      audio.volume = slider.value;
+      updateSliderBackground(slider);
+
+      audio.play().catch(error => console.log("Audio play failed:", error));
     };
 
     document.body.addEventListener('click', function() {
-      var audio = document.getElementById('backgroundMusic');
+      const audio = document.getElementById('backgroundMusic');
       if (audio.paused) {
-        audio.play().catch(function(error) {
-          console.log("Audio play failed on click:", error);
-        });
+        audio.play().catch(error => console.log("Audio play failed on click:", error));
       }
     });
 
     document.getElementById('volumeControl').addEventListener('input', function(event) {
-      var audio = document.getElementById('backgroundMusic');
-      audio.volume = event.target.value;
+      const slider = event.target;
+      updateSliderBackground(slider);
+      const audio = document.getElementById('backgroundMusic');
+      audio.volume = slider.value;
     });
   </script>
 </body>
